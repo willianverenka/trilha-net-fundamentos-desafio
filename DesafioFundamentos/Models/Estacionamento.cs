@@ -21,8 +21,9 @@ namespace DesafioFundamentos.Models
             {
                 Console.WriteLine("Digite a placa do veículo para estacionar:");
                 placa = Console.ReadLine();
-            }while(placa.Length == 0);
+            }while(String.IsNullOrWhiteSpace(placa));
             veiculos.Add(placa);
+            Console.WriteLine($"O veículo {placa} agora está estacionado.");
         }
 
         public void RemoverVeiculo()
@@ -35,9 +36,9 @@ namespace DesafioFundamentos.Models
                 // Pedir para o usuário digitar a placa e armazenar na variável placa
                 // *IMPLEMENTE AQUI*
                 placa = Console.ReadLine();
-            } while (placa.Length == 0);
+            } while(placa.Length == 0);
             // Verifica se o veículo existe
-            if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
+            if(veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
             {
 
                 // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
@@ -51,14 +52,20 @@ namespace DesafioFundamentos.Models
                     Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
                     string horasInput = Console.ReadLine();
                     isHoraValida = int.TryParse(horasInput, out int horaValida);
-                    if (isHoraValida)
+                    if(isHoraValida)
                         horas = horaValida;
-                } while (!isHoraValida);
-
+                } while(!isHoraValida);
+                valorTotal = precoInicial + precoPorHora * horas;
                 // TODO: Remover a placa digitada da lista de veículos
                 // *IMPLEMENTE AQUI*
-
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                if(veiculos.Remove(placa))
+                {
+                    Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                }
+                else
+                {
+                    Console.WriteLine($"Não foi possível remover o veículo {placa}");
+                }
             }
             else
             {
